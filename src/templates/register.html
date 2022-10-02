@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Expense Tracker</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha256-/ykJw/wDxMa0AQhHDYfuMEwVb4JHMx9h4jD4XvHqVzU=" crossorigin="anonymous" />
+    </head>
+<body>
+    <title>Register</title>
+    <div class="jumbotron text-center" style="margin-bottom:0">
+        <h1 style="color:darkslategray">Expense Tracker</h1>
+        <p>Register</p>
+      </div>
+<body class="text-center">
+    <div class="container-lg"></div>
+        <form action="/register_user" method="POST">
+            <label for="username">Username:</label><br>
+                <input type="text" id="username" name="username" required><br>
+                <label for="pword">Password:</label><br>
+                <input type="password" id="pword" name="pword" required><br><br>
+                <input type="submit" value="Register">
+        </form>
+    </div>
+</body>
+<br>
+<b>Note that the password must be at least 10 characters long.</b>
+</body>
+</html>

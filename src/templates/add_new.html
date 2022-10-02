@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Expense Tracker</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha256-/ykJw/wDxMa0AQhHDYfuMEwVb4JHMx9h4jD4XvHqVzU=" crossorigin="anonymous" />
+    </head>
+<body>
+    <title>Add expense</title>
+    <div class="jumbotron text-center" style="margin-bottom:0">
+        <h1 style="color:darkslategray">Expense Tracker</h1>
+        <h2>Add new expenses</h2>
+        <div class="btn-group btn-group-lg" style="margin:0 auto">
+            <a href="{{ url_for('home') }}" class="btn btn-primary" role="button">Home</a>
+            <a href="{{ url_for('view') }}" class="btn btn-secondary" role="button">View expenses</a>
+            <a href="{{ url_for('add_new') }}" class="btn btn-secondary" role="button">Add new expenses</a>
+        </div>
+      </div>
+      <div class="jumbotron text-center" style="margin-bottom:0">
+
+<form action="/add_expense" method="POST">
+  <label for="name">Name:</label><br>
+  <input type="text" id="name" name="name"><br>
+
+  <label for="category">Category:</label><br>
+  <input list="categories" name="category">
+  <datalist id="categories">
+    <option value="Bills">
+    <option value="Entertainment">
+    <option value="Hobbies">
+    <option value="Groceries">
+    <option value="Other">
+  </datalist><br>
+
+  <label for="amount">Amount:</label><br>
+  <input type="number" id="amount" name="amount"><br><br>
+
+  <label for="date">Date:</label><br>
+  <input type="date" id="date" name="date"><br><br>
+
+  <label for="info">Additional information:</label><br>
+  <textarea name="info"></textarea><br><br>
+  <input type="submit" value="Add">
+</form>
+</div>
+
+
+</body>
+</html>

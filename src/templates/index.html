@@ -1,3 +1,31 @@
-<title>Landing Page</title>
-<h1>Expense Tracker</h1>
-<b>Welcome!</b>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha256-/ykJw/wDxMa0AQhHDYfuMEwVb4JHMx9h4jD4XvHqVzU=" crossorigin="anonymous" />
+</head>
+
+<body>
+    <title>Landing Page</title>
+    <div class="jumbotron text-center" style="margin-bottom:0">
+        <h1 style="color:darkslategray">Expense Tracker</h1>
+        <h2>Welcome!</h2>
+        <div>
+            <a href="{{ url_for('login_page') }}" class='btn btn-primary' >Login</a>
+            <a href="{{ url_for('register_page') }}" class='btn btn-primary' >Register</a>
+        </div>
+    </div>
+<br>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert alert text-center" role="alert">
+    <b>{{ message }}</b>
+</div>
+{%endfor%}
+  {% endif %}
+{% endwith %}
+
+</body>
+</html>

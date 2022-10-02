@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Expense Tracker</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha256-/ykJw/wDxMa0AQhHDYfuMEwVb4JHMx9h4jD4XvHqVzU=" crossorigin="anonymous" />
+    </head>
+<body>
+
+<title>Main Page</title>
+<div class="jumbotron text-center" style="margin-bottom:0">
+    <h1 style="color:darkslategray">Expense Tracker</h1>
+    <div class="btn-group btn-group-lg" style="margin:0 auto">
+        <a href="{{ url_for('home') }}" class="btn btn-primary" role="button">Home</a>
+        <a href="{{ url_for('view') }}" class="btn btn-secondary" role="button">View expenses</a>
+        <a href="{{ url_for('add_new') }}" class="btn btn-secondary" role="button">Add new expenses</a>
+    </div>
+  </div>
+
+
+</body>
+</html>

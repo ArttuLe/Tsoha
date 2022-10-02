@@ -1,9 +1,38 @@
-<form action="/login_user" method="POST">
-    Username: 
-    <input type="text" name="username">
-    <br>
-    Password: 
-    <input type="text" name="password">
-    <br>
-    <input type="submit" value="Login">
-    </form>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Expense Tracker</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.0/css/bootstrap.min.css" integrity="sha256-/ykJw/wDxMa0AQhHDYfuMEwVb4JHMx9h4jD4XvHqVzU=" crossorigin="anonymous" />
+    </head>
+<body>
+    <title>Login Page</title>
+    <div class="jumbotron text-center" style="margin-bottom:0">
+        <h1 style="color:darkslategray">Expense Tracker</h1>
+        <h2>Login</h2>
+      </div>
+<body class="text-center">
+    <div class="container-lg"></div>
+        <form action="/login_user" method="POST">
+            <label for="username">Username:</label><br>
+            <input type="text" id="fname" name="username"><br>
+            <label for="pword">Password:</label><br>
+            <input type="password" id="pword" name="pword"><br><br>
+            <input type="submit" value="Login">
+        </form>
+    </div>
+</body>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+  {% for message in messages %}
+  <div class="alert text-center" role="alert">
+    <b>{{ message }}</b>
+</div>
+{%endfor%}
+  {% endif %}
+{% endwith %}
+
+<p>If u do not have an account, please consider registering</p>
+
+
+</body>
+</html>
