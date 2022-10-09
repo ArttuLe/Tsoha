@@ -13,4 +13,3 @@
 - User can fetch and visualise expenses.
 - TBA
 
-*25.9 - Sairaana melkein koko viikon, siksi huono edistyminen.

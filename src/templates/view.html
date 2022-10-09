@@ -13,6 +13,7 @@
             <a href="{{ url_for('home') }}" class="btn btn-primary" role="button">Home</a>
             <a href="{{ url_for('view') }}" class="btn btn-secondary" role="button">View expenses</a>
             <a href="{{ url_for('add_new') }}" class="btn btn-secondary" role="button">Add new expenses</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-secondary" role="button">Logout</a>
         </div>
       </div>
 
@@ -20,20 +21,22 @@
         <div class="row">
           <div class="col-sm-2">
             <h2>Information</h2>
-            <h4>Current Date here</h4>
-            <p>Information about expenses?</p>
+            <h4><script> document.write(new Date().toLocaleDateString()); </script></h4>
+            {% for table in tables %}
+            {{ table|safe }}
+            {% endfor %}
           </div>
           <div class="col-sm-5">
             <h1>Distribution of expenses</h1>
-            <div class="fakeimg">Pie chart of expenses</div>
-            </div>
+            <figure><img src="{{url_for('view_expenses') }}"></figure>
             <br>
-            <div class="col-sm-5">
-            <h1>Total expenses</h1>
-            <div class="fakeimg">X/Y axis figure of expenses</div>
-            </div>
         </div>
+        <div class="col-sm-5">
+          <h1>Some other visualisation SoonTM</h1>
+           
+          </div>
     </div>
+  </div>
 
 </body>
 </html>
