@@ -8,8 +8,15 @@ from io import BytesIO
 
 from db import db
 
+def db_conn():
+    db_uri = getenv("DATABASE_URL")
+
+    if db_uri.startswith("postgres://"):
+        db_uri = db_uri.replace("postgres://", "postgresql://", 1)
+    return create_engine(getenv("DATABASE_URL"), echo=False)
+
 def get_expenses(user_id):
-    conn = create_engine(getenv("DATABASE_URL"), echo=False)
+    conn = db_conn()
     result = pd.read_sql_query(('''SELECT * FROM expenses WHERE user_owner={}''').format(user_id), conn)
 
     data = pd.DataFrame(result, columns = ['name', 'amount', 'category', 'date', 'added', 'comment'])
@@ -18,7 +25,7 @@ def get_expenses(user_id):
 
 def get_monthly(user_id):
 
-    conn = create_engine(getenv("DATABASE_URL"), echo=False)
+    conn = db_conn()
 
     result = pd.read_sql_query(('''SELECT SUM(amount) as Total, EXTRACT(month from date) AS Month FROM expenses  WHERE user_owner={} GROUP BY month''').format(user_id), conn)
     data = pd.DataFrame(result)
