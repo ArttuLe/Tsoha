@@ -1,10 +1,10 @@
 # Tsoha
 
-https://tsoha-expense-tracker.herokuapp.com/
+- https://tsoha-expense-tracker.herokuapp.com/
 
-account with existing data for testing:
-Username: admin
-Password: admin
+- Account with existing data for testing:
+- Username: admin
+- Password: admin
 
 
 ## Expense Tracker
