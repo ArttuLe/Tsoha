@@ -13,7 +13,7 @@ def db_conn():
 
     if db_uri.startswith("postgres://"):
         db_uri = db_uri.replace("postgres://", "postgresql://", 1)
-    return create_engine(getenv("DATABASE_URL"), echo=False)
+    return create_engine(db_uri, echo=False)
 
 def get_expenses(user_id):
     conn = db_conn()
