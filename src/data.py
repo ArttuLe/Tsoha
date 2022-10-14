@@ -13,6 +13,7 @@ def db_conn():
 
     if db_uri.startswith("postgres://"):
         db_uri = db_uri.replace("postgres://", "postgresql://", 1)
+
     return create_engine(db_uri, echo=False)
 
 def get_expenses(user_id):
@@ -26,10 +27,23 @@ def get_expenses(user_id):
 def get_monthly(user_id):
 
     conn = db_conn()
-
-    result = pd.read_sql_query(('''SELECT SUM(amount) as Total, EXTRACT(month from date) AS Month FROM expenses  WHERE user_owner={} GROUP BY month''').format(user_id), conn)
-    data = pd.DataFrame(result)
+    #EXTRACT(month from date) AS Month
+    result = pd.read_sql_query(('''SELECT SUM(amount) as Total, TO_CHAR(Date, 'mon') AS "month" FROM expenses  WHERE user_owner={} GROUP BY month''').format(user_id), conn)
+    data = pd.DataFrame(result , columns=["total", "month"])
     return data
+
+def generate_barchart(user_id):
+
+    data = get_monthly(user_id)
+    print(data)
+    data.plot.bar(x="month", y="total", rot=70, title="Total expense by month", figsize= (7,4))
+    img = BytesIO()
+    plt.savefig(img, format='png')
+    plt.close()
+    img.seek(0)
+
+    return img
+
 
 def generate_pie(user_id):
 

@@ -2,9 +2,10 @@ from app import app
 from db import db
 from flask import Flask
 from flask import render_template, request, redirect, flash, url_for, session, send_file
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash
 
-from data import generate_pie, get_monthly
+from data import generate_barchart, generate_pie, get_monthly
+from queries import db_register, db_login, db_add_expense
 
 
 @app.route("/")
@@ -25,12 +26,7 @@ def register():
     username = request.form["username"]
     password = request.form["pword"]
 
-    pass_hash = generate_password_hash(password)
-
-    sql = "INSERT INTO users (username, password) VALUES (:username, :password)"
-
-    db.session.execute(sql, {"username" :username, "password" :pass_hash})
-    db.session.commit()
+    db_register(username, password, db)
 
     flash("User registered successfully")
 
@@ -48,22 +44,21 @@ def login():
         username = request.form["username"]
         password = request.form["pword"]
 
-        query = "SELECT id,password FROM users WHERE username=:username"
-        result = db.session.execute(query, {"username": username})
-        
-        user = result.fetchone()
+        user = db_login(username, password, db)
+
         if user:
             hash = user.password
+
             if check_password_hash(hash, password):
-                session["user_id"] = user.id
-                return render_template("main.html")
+                session['user_id'] = user.id
+                return render_template("main.html", username=username)
 
         flash("username or password wrong, please try again!")
         return redirect(request.referrer)
 
 @app.route("/logout")
 def logout():
-    del session["user_id"]
+    del session['user_id']
     return redirect("/")
 
 @app.route("/add")
@@ -78,11 +73,7 @@ def add_expense():
     date = request.form["date"]
     amount = request.form["amount"]
     info = request.form["info"]
-
-    sql = "INSERT INTO expenses (name,amount,category,date,added,comment,user_owner) VALUES (:name,:amount,:category,:date,NOW(),:comment,:user_owner)"
-
-    db.session.execute(sql, {"name" :name, "amount" :amount, "category" :category, "date" :date, "comment" :info,"user_owner" :session["user_id"]})
-    db.session.commit()
+    db_add_expense(name, category, date, amount, info, db, session['user_id'])
     flash("Submission added successfully!")
 
     return redirect(request.referrer)
@@ -95,5 +86,11 @@ def view():
 @app.route("/view_expenses")
 def view_expenses():
     svg_file = generate_pie(session["user_id"])
+
+    return send_file(svg_file, mimetype='image/png')
+
+@app.route("/view_month")
+def view_month():
+    svg_file = generate_barchart(session["user_id"])
 
     return send_file(svg_file, mimetype='image/png')
