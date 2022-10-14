@@ -25,3 +25,6 @@
 - Add something to the Home page after logging in. Merge home page with "view expenses"?
 - Option to choose between multiple data visualisations.
 - User can edit expenses.
+- Validate Inputs.
+- Fix CSRF vulnerabilities.
+- Refactor Database.
