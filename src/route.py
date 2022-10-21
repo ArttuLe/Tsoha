@@ -5,7 +5,7 @@ from flask import render_template, request, redirect, flash, url_for, session, s
 from werkzeug.security import check_password_hash
 
 from data import generate_barchart, generate_pie, get_monthly
-from queries import db_register, db_login, db_add_expense
+from queries import db_get_date, db_register, db_login, db_add_expense, db_update_logged_in
 
 
 @app.route("/")
@@ -44,14 +44,16 @@ def login():
         username = request.form["username"]
         password = request.form["pword"]
 
-        user = db_login(username, password, db)
+        user = db_login(username, db)
 
         if user:
             hash = user.password
 
             if check_password_hash(hash, password):
                 session['user_id'] = user.id
-                return render_template("main.html", username=username)
+                db_update_logged_in(user.id, db)
+                info = db_get_date(user.id, db)
+                return render_template("main.html", username=username, info=info)
 
         flash("username or password wrong, please try again!")
         return redirect(request.referrer)
@@ -73,6 +75,7 @@ def add_expense():
     date = request.form["date"]
     amount = request.form["amount"]
     info = request.form["info"]
+
     db_add_expense(name, category, date, amount, info, db, session['user_id'])
     flash("Submission added successfully!")
 

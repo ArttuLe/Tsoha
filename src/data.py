@@ -18,8 +18,7 @@ def db_conn():
 
 def get_expenses(user_id):
     conn = db_conn()
-    result = pd.read_sql_query(('''SELECT * FROM expenses WHERE user_owner={}''').format(user_id), conn)
-
+    result = pd.read_sql_query(('''SELECT name,amount,(SELECT category.category FROM category WHERE category.id=A.category_id),date,added, comment FROM expense A INNER JOIN expenses B ON A.id=B.expense_id WHERE B.user_owner={}''').format(user_id), conn)
     data = pd.DataFrame(result, columns = ['name', 'amount', 'category', 'date', 'added', 'comment'])
     
     return data
@@ -27,8 +26,7 @@ def get_expenses(user_id):
 def get_monthly(user_id):
 
     conn = db_conn()
-    #EXTRACT(month from date) AS Month
-    result = pd.read_sql_query(('''SELECT SUM(amount) as Total, TO_CHAR(Date, 'mon') AS "month" FROM expenses  WHERE user_owner={} GROUP BY month''').format(user_id), conn)
+    result = pd.read_sql_query(('''SELECT SUM(amount) as Total, TO_CHAR(Date, 'mon') AS "month" FROM expense A INNER JOIN expenses B ON A.id=B.expense_id WHERE B.user_owner={} GROUP BY month''').format(user_id), conn)
     data = pd.DataFrame(result , columns=["total", "month"])
     return data
 
