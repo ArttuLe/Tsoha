@@ -1,3 +1,6 @@
+from os import abort
+import secrets
+
 from app import app
 from db import db
 from flask import Flask
@@ -51,6 +54,8 @@ def login():
 
             if check_password_hash(hash, password):
                 session['user_id'] = user.id
+                session["csrf_token"] = secrets.token_hex(16)
+
                 db_update_logged_in(user.id, db)
                 info = db_get_date(user.id, db)
                 return render_template("main.html", username=username, info=info)
@@ -75,6 +80,9 @@ def add_expense():
     date = request.form["date"]
     amount = request.form["amount"]
     info = request.form["info"]
+
+    if session["csrf_token"] != request.form["csrf_token"]:
+        abort(403)
 
     db_add_expense(name, category, date, amount, info, db, session['user_id'])
     flash("Submission added successfully!")

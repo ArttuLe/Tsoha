@@ -37,6 +37,8 @@
 
   <label for="date">Date:</label><br>
   <input type="date" id="date" name="date" required><br><br>
+  
+  <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
 
   <label for="info">Additional information:</label><br>
   <textarea name="info"></textarea><br><br>
